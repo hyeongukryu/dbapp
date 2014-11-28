@@ -14,3 +14,8 @@ src/main/java/DatabaseConfig.java에서 변경하십시오.
 
 실행하는 방법
 ===========
+1. dbapp 데이터베이스를 준비합니다.
+1. /database/dbapp.sql을 실행하여 데이터를 넣습니다.
+1. 데이터베이스 연결 정보를 DatabaseConfig.java에 넣습니다.
+1. mvn package && java -jar target/dbapp-0.0.1-SNAPSHOT.jar
+1. http://localhost:8080/
