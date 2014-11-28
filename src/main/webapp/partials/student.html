@@ -1,0 +1,80 @@
+<div class="container">
+  <h1 class="page-header">수강 편람 <small>강의를 찾는 기능</small></h1>
+  <div show-refresh="years !== null && majors !== null">
+    <div class="form-horizontal" role="form">
+      <div class="form-group row">
+        <label class="col-sm-1 control-label" for="major">전공</label>
+        <div class="col-sm-2">
+          <select class="form-control" id="major" ng-model="major" ng-options="major.name for major in majors" />
+        </div>
+        <label class="col-sm-1 control-label" for="year">연도</label>
+        <div class="col-sm-2">
+          <select class="form-control" id="year" ng-model="year" ng-options="year for year in years" />
+        </div>
+        <label class="col-sm-1 control-label" for="schoolYear">학년</label>
+        <div class="col-sm-2">
+          <select class="form-control" id="schoolYear" ng-model="schoolYear" ng-options="schoolYear for schoolYear in [1, 2, 3, 4]" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-1 control-label" for="lectureNumber">수업 번호</label>
+        <div class="col-sm-2">
+          <input class="form-control" type="text" id="lectureNumber" placeholder="수업 번호" />
+        </div>
+        <label class="col-sm-1 control-label" for="subjectId">학수 번호</label>
+        <div class="col-sm-2">
+          <input class="form-control" type="text" id="subjectId" placeholder="학수 번호" />
+        </div>
+        <label class="col-sm-1 control-label" for="subjectTitle">교과목 이름</label>
+        <div class="col-sm-2">
+          <input class="form-control" type="text" id="subjectTitle" placeholder="교과목 이름" />
+        </div>
+        <label class="col-sm-1 control-label" for="instructorName">교강사명</label>
+        <div class="col-sm-2">
+          <input class="form-control" type="text" id="instructorName" placeholder="교강사명" />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="pull-right">
+          <button class="btn btn-default btn-lg" type="submit" ng-click="search()">
+            <span class="glyphicon glyphicon-search"></span> 조회
+          </button>
+        </div>
+      </div>
+    </div>
+    <table class="table table-stripped">
+      <thead>
+        <tr>
+          <th class="col-md-1">학년</th>
+          <th class="col-md-1">수업 번호</th>
+          <th class="col-md-1">학수 번호</th>
+          <th class="col-md-2">교과목 이름</th>
+          <th class="col-md-1">교강사</th>
+          <th class="col-md-2">수업 시간</th>
+          <th class="col-md-1">강의실</th>
+          <th class="col-md-1">수강 인원</th>
+          <th class="col-md-1">총 인원</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="l in lectures">
+          <td>{{ l.schoolYear }}</td>
+          <td>{{ l.lectureNumber }}</td>
+          <td>{{ l.subjectId }}</td>
+          <td>{{ l.subjectTitle }}</td>
+          <td>{{ l.instructorName }}</td>
+          <td>
+            <div ng-repeat="time in l.timeTable" class="row">
+              <div class="col-sm-5 time">{{ time.startTime ? time.startTime.format('ddd HH:mm') : '미지정' }}</div>
+              <div class="col-sm-2 time">~</div>
+              <div class="col-sm-5 time">{{ time.endTime ? time.endTime.format('ddd HH:mm') : '미지정' }}</div>
+            </div>
+          </td>
+          <td>TBD</td>
+          <td>0</td>
+          <td>{{ l.limit }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

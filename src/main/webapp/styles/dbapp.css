@@ -1,0 +1,34 @@
+body {
+  padding-top: 70px;
+}
+*,
+h1,
+h2,
+h3,
+p,
+pre {
+  font-family: 'Malgun Gothic', 'Dotum', sans-serif;
+}
+footer {
+  margin-top: 64px;
+  text-align: center;
+}
+.dropdown-toggle>span {
+  font-size: 16pt;
+  line-height: 0;
+}
+.jumbotron>h1 {
+  font-size: 25pt;
+}
+.jumbotron>p {
+  font-size: 13pt;
+}
+.refresh-icon {
+  font-size: 34pt;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.time {
+  text-align: center;
+}
