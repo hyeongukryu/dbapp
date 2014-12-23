@@ -5,6 +5,9 @@ import java.util.Date;
 public class LectureTime {
 
 	private int period;
+	private int lectureId;
+	private Date startTime;
+	private Date endTime;
 
 	public int getPeriod() {
 		return period;
@@ -13,8 +16,6 @@ public class LectureTime {
 	public void setPeriod(int period) {
 		this.period = period;
 	}
-
-	private int lectureId;
 
 	public int getLectureId() {
 		return lectureId;
@@ -31,9 +32,6 @@ public class LectureTime {
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
-
-	private Date startTime;
-	private Date endTime;
 
 	public Date getStartTime() {
 		return startTime;
