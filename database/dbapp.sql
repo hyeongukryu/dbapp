@@ -154,7 +154,7 @@ INSERT INTO `instructor` (`instructorId`, `name`, `majorId`) VALUES
 -- Dumping structure for table dbapp.lecture
 DROP TABLE IF EXISTS `lecture`;
 CREATE TABLE IF NOT EXISTS `lecture` (
-  `lectureId` int(11) NOT NULL,
+  `lectureId` int(11) NOT NULL AUTO_INCREMENT,
   `number` int(11) NOT NULL,
   `subjectId` varchar(255) NOT NULL,
   `majorId` int(11) NOT NULL,
@@ -172,9 +172,9 @@ CREATE TABLE IF NOT EXISTS `lecture` (
   CONSTRAINT `FK_lecture_major` FOREIGN KEY (`majorId`) REFERENCES `major` (`majorId`),
   CONSTRAINT `FK_lecture_room` FOREIGN KEY (`roomId`) REFERENCES `room` (`roomId`),
   CONSTRAINT `FK_lecture_subject` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`subjectId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100000 DEFAULT CHARSET=utf8;
 
--- Dumping data for table dbapp.lecture: ~356 rows (approximately)
+-- Dumping data for table dbapp.lecture: ~0 rows (approximately)
 /*!40000 ALTER TABLE `lecture` DISABLE KEYS */;
 INSERT INTO `lecture` (`lectureId`, `number`, `subjectId`, `majorId`, `schoolYear`, `instructorId`, `limit`, `year`, `roomId`) VALUES
   (8831, 10003, 'CIE3022', 1, 3, '2001001001', 3, 2014, 169),
@@ -1365,7 +1365,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   CONSTRAINT `FK_student_major` FOREIGN KEY (`majorId`) REFERENCES `major` (`majorId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table dbapp.student: ~20 rows (approximately)
+-- Dumping data for table dbapp.student: ~0 rows (approximately)
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
 INSERT INTO `student` (`studentId`, `password`, `name`, `gender`, `majorId`, `instructorId`, `schoolYear`) VALUES
   ('2009003125', '125125125', '정남아', 'female', 44, '2001032011', 4),
@@ -1400,7 +1400,7 @@ CREATE TABLE IF NOT EXISTS `subject` (
   PRIMARY KEY (`subjectId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table dbapp.subject: ~75 rows (approximately)
+-- Dumping data for table dbapp.subject: ~0 rows (approximately)
 /*!40000 ALTER TABLE `subject` DISABLE KEYS */;
 INSERT INTO `subject` (`subjectId`, `title`, `credit`) VALUES
   ('ARE3009', '건축구조역학2', 3),
