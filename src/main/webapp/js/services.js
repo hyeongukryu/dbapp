@@ -3,7 +3,7 @@ angular.module('dbappApp.services', [])
 .factory('DbappService', ['$http', function ($http) {
   var encode = encodeURI;
 
-  var buildQuery = function (data) {
+  var buildSearchQuery = function (data) {
     var query = '/searchCatalog';
     if (!data.majorId || !data.year || !data.schoolYear) {
       throw new Error();
@@ -23,6 +23,24 @@ angular.module('dbappApp.services', [])
     addOptional('subjectId');
     addOptional('subjectTitle');
     addOptional('instructorName');
+    return query;
+  };
+
+  var buildCreateQuery = function (data) {
+    var query = '/create';
+    if (!data.majorId || !data.year || !data.schoolYear ||
+      !data.lectureNumber || !data.subjectId || !data.instructorName) {
+      throw new Error();
+    }
+
+    query += '?majorId={0}&year={1}&schoolYear={2}&lectureNumber={3}&subjectId={4}&instructorName={5}';
+    query = query
+      .split('{0}').join(encode(data.majorId))
+      .split('{1}').join(encode(data.year))
+      .split('{2}').join(encode(data.schoolYear))
+      .split('{3}').join(encode(data.lectureNumber))
+      .split('{4}').join(encode(data.subjectId))
+      .split('{5}').join(encode(data.instructorName));
     return query;
   };
 
@@ -50,11 +68,14 @@ angular.module('dbappApp.services', [])
     statistics3: function (year) {
       return $http.get('/statistics3?year=' + year);
     },
+    drop: function (lectureId) {
+      return $http.get('/drop?lectureId=' + lectureId);  
+    },
     readAllMajors: function () {
       return $http.get('/majors');
     },
     searchCatalog: function (data) {
-      var query = buildQuery(data);
+      var query = buildSearchQuery(data);
       return $http.get(query);
     },
     registrations: function () {
@@ -77,6 +98,10 @@ angular.module('dbappApp.services', [])
     },
     unregister: function (lectureId) {
       return $http.get('/unregister?studentId=' + studentId + '&lectureId=' + lectureId);
+    },
+    create: function (data) {
+      var query = buildCreateQuery(data);
+      return $http.get(query);
     }
   };
 

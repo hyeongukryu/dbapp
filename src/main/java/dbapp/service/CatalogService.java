@@ -8,11 +8,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import dbapp.domain.LectureTime;
 import dbapp.domain.Major;
 import dbapp.persistence.LectureMapper;
 import dbapp.persistence.MajorMapper;
+import dbapp.persistence.UserMapper;
 
 @Component
 @Transactional
@@ -22,6 +25,9 @@ public class CatalogService {
 
 	@Autowired
 	private LectureMapper lectureMapper;
+	
+	@Autowired
+	private UserMapper userMapper;
 
 	public List<Major> getAllMajors() {
 		return majorMapper.getAll();
@@ -63,4 +69,30 @@ public class CatalogService {
 		return result;
 	}
 
+	public Boolean drop(int lectureId) {
+		try {
+			lectureMapper.deleteLectureTime(lectureId);
+			return lectureMapper.deleteLecture(lectureId) > 0;
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus()
+					.setRollbackOnly();
+			return false;
+		}
+	}
+
+	public Boolean create(int majorId, int year, int schoolYear,
+			String lectureNumber, String subjectId, String instructorName) {
+		try {
+			final Integer roomId = null;
+			final int limit = 40;
+			
+			String instructorId = userMapper.getInstructorByName(instructorName);
+			return lectureMapper.createLecture(lectureNumber, subjectId,
+					majorId, schoolYear, instructorId, limit, roomId, year) > 0;
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus()
+					.setRollbackOnly();
+			return false;
+		}
+	}
 }

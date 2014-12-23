@@ -3,6 +3,8 @@ package dbapp.persistence;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
 import dbapp.domain.LectureTime;
@@ -41,10 +43,10 @@ public interface LectureMapper {
 	public List<LectureTime> searchCatalogTime(int majorId, int year,
 			int schoolYear, String lectureNumber, String subjectId,
 			String subjectTitle, String instructorName);
-	
+
 	@Select("SELECT year FROM lecture WHERE lectureId = #{0} LIMIT 1")
 	public int getYearByLectureId(int lectureId);
-	
+
 	@Select("SELECT lectureId FROM lecture WHERE year = #{0} AND number = #{1}")
 	public List<Integer> getByYearNumber(int year, int lectureNumber);
 
@@ -52,4 +54,17 @@ public interface LectureMapper {
 			+ "LEFT OUTER JOIN lecture_time ON lecture_time.lectureId = lecture.lectureId\n"
 			+ "WHERE lecture.lectureId = #{0}")
 	public List<LectureTime> getTimesByLectureId(int lectureId);
+
+	@Delete("DELETE FROM lecture_time WHERE lectureId = #{0}")
+	public int deleteLectureTime(int lectureId);
+
+	@Delete("DELETE FROM lecture WHERE lectureId = #{0}")
+	public int deleteLecture(int lectureId);
+
+	@Insert("INSERT INTO lecture SET\n"
+			+ "number = #{0}, subjectId = #{1}, majorId = #{2}, schoolYear = #{3},\n"
+			+ "instructorId = #{4}, `limit` = #{5}, roomId = #{6}, year = #{7}")
+	public int createLecture(String lectureNumber, String subjectId,
+			int majorId, int schoolYear, String instructorId, int limit,
+			Integer roomId, int year);
 }

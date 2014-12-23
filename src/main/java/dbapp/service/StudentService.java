@@ -7,19 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import dbapp.persistence.StudentMapper;
+import dbapp.persistence.UserMapper;
 
 @Component
 @Transactional
 public class StudentService {
 	@Autowired
-	private StudentMapper studentMapper;
+	private UserMapper userMapper;
 
 	public List<HashMap<String, String>> getAll() {
-		return studentMapper.getAll();
+		return userMapper.getAll();
 	}
 
 	public HashMap<String, String> getByStudentId(String studentId) {
-		return studentMapper.getByStudentId(studentId);
+		return userMapper.getByStudentId(studentId);
 	}
 }

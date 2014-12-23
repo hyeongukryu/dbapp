@@ -185,7 +185,6 @@ angular.module('dbappApp.controllers', [])
     });
     $scope.times = [times];
     $scope.data = {};
-    console.log(times);
   }, error);
 }])
 
@@ -244,6 +243,122 @@ angular.module('dbappApp.controllers', [])
 }])
 
 .controller('AdminController', ['$scope', 'DbappService', function ($scope, DbappService) {
+  $scope.years = null;
+  $scope.majors = null;
+  DbappService.readAllYears().success(function (data) {
+    $scope.years = data;
+    if (data.length) {
+      $scope.year = data[data.length - 1];
+    }
+  });
+  DbappService.readAllMajors().success(function (data) {
+    $scope.majors = data;
+    if (data.length) {
+      $scope.major = data[0];
+    }
+  });
+  $scope.schoolYear = 3;
+
+  $scope.search = function () {
+    try {
+      var query = {};
+      if (!$scope.major || !$scope.year || !$scope.schoolYear) {
+        throw new Error();
+      }
+
+      query.majorId = $scope.major.id;
+      query.year = $scope.year;
+      query.schoolYear = $scope.schoolYear;
+
+      query.lectureNumber = $('#lectureNumber').val();
+      query.subjectId = $('#subjectId').val();
+      query.subjectTitle = $('#subjectTitle').val();
+      query.instructorName = $('#instructorName').val();
+
+      DbappService.searchCatalog(query).then(function (result) {
+        var data = result.data;
+        $scope.lectures = data.lectures;
+        _.forEach($scope.lectures, function (lecture) {
+          lecture.timeTable = [];
+          _.forEach(data.timeTable, function (time) {
+            if (lecture.lectureId != time.lectureId) {
+              return;
+            }
+            var lectureTime = {
+              period: time.period,
+              startTime: time.startTime ? moment(time.startTime).add(9, 'hours') : null,
+              endTime: time.endTime ? moment(time.endTime).add(9, 'hours') : null
+            };
+            lecture.timeTable.push(lectureTime);
+          });
+        });
+      }, error);
+    } catch (e) {
+      swal('검색 조건이 잘못되었습니다.', null, 'error');
+    }
+  };
+
+  $scope.create = function () {
+    try {
+      var query = {};
+      if (!$scope.major || !$scope.year || !$scope.schoolYear) {
+        throw new Error();
+      }
+
+      query.majorId = $scope.major.id;
+      query.year = $scope.year;
+      query.schoolYear = $scope.schoolYear;
+
+      query.lectureNumber = $('#lectureNumber').val();
+      query.subjectId = $('#subjectId').val();
+      query.instructorName = $('#instructorName').val();
+
+      if (!query.lectureNumber || !query.subjectId || !query.instructorName) {
+        throw new Error();
+      }
+
+      DbappService.create(query).then(function (result) {
+        if (result.data.result === 'success') {
+          swal('성공적으로 설강했습니다.', null, 'success');
+        } else {
+          swal('설강하지 못했습니다.', null, 'error');
+        }
+        $scope.search();
+      }, function () {
+        error();
+        $scope.search();
+      });
+    } catch (e) {
+      console.log(e);
+      swal('입력이 잘못되었습니다.', null, 'error');
+    }
+  };
+
+  $scope.drop = function (lectureId) {
+    var doDrop = function () {
+      DbappService.drop(lectureId).then(function (result) {
+        if (result.data.result === 'success') {
+          swal('성공적으로 폐강했습니다.', null, 'success');
+        } else {
+          swal('폐강하지 못했습니다.', null, 'error');
+        }
+        $scope.search();
+      }, function () {
+        error();
+        $scope.search();
+      });
+    };
+
+    swal({
+      title: '폐강 확인',
+      text: '수강 학생이 있는 수업은 폐강할 수 없으며, 또한 이 작업은 되돌릴 수 없습니다. 정말로 폐강 하시겠습니까?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '진행',
+      cancelButtonText: '취소',
+      closeOnConfirm: false
+    }, doDrop);
+  };
 }])
 
 .controller('StatisticsController', ['$scope', 'DbappService', function ($scope, DbappService) {
