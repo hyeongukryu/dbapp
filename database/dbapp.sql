@@ -164,17 +164,19 @@ CREATE TABLE IF NOT EXISTS `lecture` (
   `year` int(11) NOT NULL,
   `roomId` int(11) DEFAULT NULL,
   PRIMARY KEY (`lectureId`),
+  UNIQUE KEY `number_year` (`number`,`year`),
   KEY `FK_lecture_subject` (`subjectId`),
   KEY `FK_lecture_major` (`majorId`),
   KEY `FK_lecture_instructor` (`instructorId`),
   KEY `FK_lecture_room` (`roomId`),
+  KEY `number` (`number`),
   CONSTRAINT `FK_lecture_instructor` FOREIGN KEY (`instructorId`) REFERENCES `instructor` (`instructorId`),
   CONSTRAINT `FK_lecture_major` FOREIGN KEY (`majorId`) REFERENCES `major` (`majorId`),
   CONSTRAINT `FK_lecture_room` FOREIGN KEY (`roomId`) REFERENCES `room` (`roomId`),
   CONSTRAINT `FK_lecture_subject` FOREIGN KEY (`subjectId`) REFERENCES `subject` (`subjectId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100000 DEFAULT CHARSET=utf8;
 
--- Dumping data for table dbapp.lecture: ~0 rows (approximately)
+-- Dumping data for table dbapp.lecture: ~356 rows (approximately)
 /*!40000 ALTER TABLE `lecture` DISABLE KEYS */;
 INSERT INTO `lecture` (`lectureId`, `number`, `subjectId`, `majorId`, `schoolYear`, `instructorId`, `limit`, `year`, `roomId`) VALUES
   (8831, 10003, 'CIE3022', 1, 3, '2001001001', 3, 2014, 169),
