@@ -5,13 +5,16 @@ angular.module('dbappApp',
     'dbappApp.directives',
     'ui.router',
     'ngRoute',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ui.calendar'
   ]
 )
 
 .config(['$stateProvider', '$urlRouterProvider', '$httpProvider', '$locationProvider',
   function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
   
+  moment.locale('ko-KR');
+
   $stateProvider
     .state('dbapp', {
       url: '',
@@ -21,7 +24,8 @@ angular.module('dbappApp',
           templateUrl: 'partials/dbapp.html'
         },
         'nav@dbapp': {
-          templateUrl: 'partials/nav.html'
+          templateUrl: 'partials/nav.html',
+          controller: 'NavController'
         }
       }
     })
@@ -43,12 +47,39 @@ angular.module('dbappApp',
         }
       }
     })
+    .state('dbapp.timetable', {
+      url: '/timetable',
+      views: {
+        content: {
+          templateUrl: 'partials/timetable.html',
+          controller: 'TimetableController'
+        }
+      }
+    })
+    .state('dbapp.registrations', {
+      url: '/registrations',
+      views: {
+        content: {
+          templateUrl: 'partials/registrations.html',
+          controller: 'RegistrationsController'
+        }
+      }
+    })
     .state('dbapp.admin', {
       url: '/admin',
       views: {
         content: {
           templateUrl: 'partials/admin.html',
           controller: 'AdminController'
+        }
+      }
+    })
+    .state('dbapp.statistics', {
+      url: '/statistics',
+      views: {
+        content: {
+          templateUrl: 'partials/statistics.html',
+          controller: 'StatisticsController'
         }
       }
     })

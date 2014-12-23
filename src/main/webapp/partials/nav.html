@@ -14,8 +14,17 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li ui-sref-active="active"><a ui-sref="dbapp.home">홈</a></li>
-        <li ui-sref-active="active"><a ui-sref="dbapp.student">수강 편람</a></li>
-        <li ui-sref-active="active"><a ui-sref="dbapp.admin">관리자 기능</a></li>
+        <li ui-sref-active="active" ng-if="studentId()"><a ui-sref="dbapp.student">수강 편람 및 신청</a></li>
+        <li ui-sref-active="active" ng-if="studentId()"><a ui-sref="dbapp.registrations">신청 내역</a></li>
+        <li ui-sref-active="active" ng-if="studentId()"><a ui-sref="dbapp.timetable">시간표</a></li>
+        <li ui-sref-active="active"><a ui-sref="dbapp.admin">관리</a></li>
+        <li ui-sref-active="active"><a ui-sref="dbapp.statistics">통계</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a ng-if="!studentId()">학생이 선택되지 않았습니다.</a>
+          <a ng-if="studentId()">학생 번호 {{ studentId() }}</a>
+        </li>
       </ul>
     </div>
   </div>

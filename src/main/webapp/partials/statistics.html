@@ -1,0 +1,111 @@
+<div class="container">
+  <h1 class="page-header">통계</h1>
+  <div show-refresh="complete">
+    <tabset>
+      <tab heading="과목별 통계">
+        <div ng-repeat="s in s1y">
+          <h2>{{ s.year }}년</h2>
+          <table class="table table-stripped">
+            <thead>
+              <tr>
+                <th class="col-md-6">과목 이름</th>
+                <th class="col-md-6">인원</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="r in s.data">
+                <td>{{ r.title }}</td>
+                <td>{{ r.count }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h2>전체 연도</h2>
+        <table class="table table-stripped">
+          <thead>
+            <tr>
+              <th class="col-md-6">과목 이름</th>
+              <th class="col-md-6">인원</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="r in s1">
+              <td>{{ r.title }}</td>
+              <td>{{ r.count }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </tab>
+      <tab heading="전공별 통계">
+        <div ng-repeat="s in s2y">
+          <h2>{{ s.year }}년</h2>
+          <table class="table table-stripped">
+            <thead>
+              <tr>
+                <th class="col-md-6">전공 이름</th>
+                <th class="col-md-6">인원</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="r in s.data">
+                <td>{{ r.name }}</td>
+                <td>{{ r.count }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h2>전체 연도</h2>
+        <table class="table table-stripped">
+          <thead>
+            <tr>
+              <th class="col-md-6">전공 이름</th>
+              <th class="col-md-6">인원</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="r in s2">
+              <td>{{ r.name }}</td>
+              <td>{{ r.count }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </tab>
+      <tab heading="과목, 전공별 통계">
+        <div ng-repeat="s in s3y">
+          <h2>{{ s.year }}년</h2>
+          <table class="table table-stripped">
+            <thead>
+              <tr>
+                <th class="col-md-4">과목 이름</th>
+                <th class="col-md-4">전공 이름</th>
+                <th class="col-md-4">인원</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="r in s.data">
+                <td>{{ r.title }}</td>
+                <td>{{ r.name }}</td>
+                <td>{{ r.count }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h2>전체 연도</h2>
+        <table class="table table-stripped">
+          <thead>
+            <tr>
+              <th class="col-md-6">과목 이름</th>
+              <th class="col-md-6">인원</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="r in s3">
+              <td>{{ r.title }}</td>
+              <td>{{ r.count }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </tab>
+    </tabset>
+  </div>
+</div>

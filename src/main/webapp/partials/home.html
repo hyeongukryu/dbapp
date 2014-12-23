@@ -3,4 +3,30 @@
     <h1>수강 신청 시스템</h1>
     <p>한양대학교 데이터베이스 모델링 및 응용 프로젝트</p>
   </div>
+  <div>
+    <h1 class="page-header">학생 선택 <small>학생을 선택하면 학생 기능을 이용할 수 있습니다.</small></h1>
+    <ul>
+      <li>처음에 선택한 학생으로 학생 서비스가 제공됩니다.</li>
+      <li>학생을 변경하려면 페이지를 다시 로드하십시오.</li>
+      <li>관리자 기능은 로그인과 상관없이 계속 사용할 수 있습니다.</li>
+    </ul>
+    <div show-refresh="students !== null">
+      <div ng-if="studentId()" class="select-student">
+        <p>학생 선택이 완료되었습니다.</p>
+      </div>
+      <div ng-if="!studentId()" class="select-student">
+        <select ng-model="selectedStudent" ng-options="student.id + ' ' + student.name for student in students" />
+        <button class="btn btn-default btn-md" type="submit" ng-click="setStudentId(selectedStudent.id)">
+          <span class="glyphicon glyphicon-ok"></span> 선택
+        </button>
+      </div>
+      <div ng-if="studentId()" class="select-student">
+        <h2>빠른 신청</h2>
+        <input type="text" ng-model="lectureNumber" placeholder="강의 번호" />
+        <button class="btn btn-default btn-md" type="submit" ng-click="registerFast(lectureNumber)">
+          <span class="glyphicon glyphicon-ok"></span> 신청
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -26,9 +26,29 @@ angular.module('dbappApp.services', [])
     return query;
   };
 
-  return {
+  var studentId = null;
+
+  var service = {
+    setStudentId: function (id) {
+      studentId = id;
+    },
+    getStudentId: function () {
+      return studentId;
+    },
+    readAllStudents: function () {
+      return $http.get('/students');
+    },
     readAllYears: function () {
       return $http.get('/years');
+    },
+    statistics1: function (year) {
+      return $http.get('/statistics1?year=' + year);
+    },
+    statistics2: function (year) {
+      return $http.get('/statistics2?year=' + year);
+    },
+    statistics3: function (year) {
+      return $http.get('/statistics3?year=' + year);
     },
     readAllMajors: function () {
       return $http.get('/majors');
@@ -36,6 +56,72 @@ angular.module('dbappApp.services', [])
     searchCatalog: function (data) {
       var query = buildQuery(data);
       return $http.get(query);
+    },
+    registrations: function () {
+      return $http.get('/registrations?studentId=' + studentId);
+    },
+    registrationTimes: function () {
+      return $http.get('/registrationTimes?studentId=' + studentId);
+    },
+    registrationYears: function () {
+      return $http.get('/registrationYears?studentId=' + studentId);
+    },
+    register: function (lectureId) {
+      return $http.get('/register?studentId=' + studentId + '&lectureId=' + lectureId);
+    },
+    registerNumber: function (lectureNumber) {
+      return $http.get('/registerNumber?studentId=' + studentId + '&lectureNumber=' + lectureNumber);
+    },
+    clear: function () {
+      return $http.get('/clear?studentId=' + studentId);
+    },
+    unregister: function (lectureId) {
+      return $http.get('/unregister?studentId=' + studentId + '&lectureId=' + lectureId);
     }
   };
+
+  var composeTimetable = function (registrations, times, years) {
+    var timetable = [];
+    _.forEach(years, function (year) {
+      var list = [];
+      _.forEach(registrations, function (reg) {
+        if (reg.year != year) {
+          return;
+        }
+        reg.times = [];
+        _.forEach(times, function (time) {
+          if (reg.lectureId != time.lectureId) {
+            return;
+          }
+          var lectureTime = {
+            period: time.period,
+            startTime: time.startTime ? moment(time.startTime).add(9, 'hours') : null,
+            endTime: time.endTime ? moment(time.endTime).add(9, 'hours') : null
+          };
+          reg.times.push(lectureTime);
+        });
+        list.push(reg);
+      });
+      timetable.push({
+        year: year,
+        registrations: list
+      });
+    });
+    return timetable;
+  };
+
+  service.timetableYear = function (success, error) {
+    var registrations = service.registrations();
+    var registrationTimes = service.registrationTimes();
+    var registrationYears = service.registrationYears();
+    registrations.then(function (registrations) {
+      registrationTimes.then(function (times) {
+        registrationYears.then(function (years) {
+          var result = composeTimetable(registrations.data, times.data, years.data);
+          success(result);
+        }, error);
+      }, error);
+    }, error);
+  };
+  return service;
 }])

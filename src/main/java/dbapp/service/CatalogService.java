@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import dbapp.domain.LectureTime;
 import dbapp.domain.Major;
@@ -14,6 +15,7 @@ import dbapp.persistence.LectureMapper;
 import dbapp.persistence.MajorMapper;
 
 @Component
+@Transactional
 public class CatalogService {
 	@Autowired
 	private MajorMapper majorMapper;
@@ -40,15 +42,17 @@ public class CatalogService {
 				schoolYear, lectureNumber, subjectId, subjectTitle,
 				instructorName);
 		List<HashMap<String, String>> timeTable = new ArrayList<HashMap<String, String>>();
-		
-		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
+
+		final SimpleDateFormat transFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
+
 		for (int i = 0; i < lt.size(); i++) {
 			HashMap<String, String> row = new HashMap<String, String>();
 			row.put("lectureId", Integer.toString(lt.get(i).getLectureId()));
 			row.put("period", Integer.toString(lt.get(i).getPeriod()));
 			if (lt.get(i).getStartTime() != null) {
-				row.put("startTime", transFormat.format(lt.get(i).getStartTime()));
+				row.put("startTime",
+						transFormat.format(lt.get(i).getStartTime()));
 			}
 			if (lt.get(i).getEndTime() != null) {
 				row.put("endTime", transFormat.format(lt.get(i).getEndTime()));

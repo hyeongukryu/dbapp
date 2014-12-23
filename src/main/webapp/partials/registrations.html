@@ -1,0 +1,51 @@
+<div class="container">
+  <h1 class="page-header">신청 내역 <small>신청 내역 보기 및 초기화</small></h1>
+  <button class="btn btn-danger pull-right" ng-click="clear()">이번 연도 신청 내역 초기화</button>
+  <div show-refresh="data">
+    <tabset>
+      <tab ng-repeat="year in data" heading="{{ year.year }}">
+        <table class="table table-stripped">
+          <thead>
+            <tr>
+              <th class="col-md-1">학년</th>
+              <th class="col-md-1">수업 번호</th>
+              <th class="col-md-1">학수 번호</th>
+              <th class="col-md-2">교과목 이름</th>
+              <th class="col-md-1">교강사</th>
+              <th class="col-md-1">학점</th>
+              <th class="col-md-2">수업 시간</th>
+              <th class="col-md-1">강의실</th>
+              <th class="col-md-1">등급</th>
+              <th class="col-md-1">신청 변경</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="l in year.registrations">
+            <td>{{ l.schoolYear }}</td>
+            <td>{{ l.lectureNumber }}</td>
+            <td>{{ l.subjectId }}</td>
+            <td>{{ l.subjectTitle }}</td>
+            <td>{{ l.instructorName }}</td>
+            <td>{{ l.credit }}</td>
+            <td>
+              <div ng-repeat="time in l.times" class="row">
+                <div class="col-sm-5 time">{{ time.startTime ? time.startTime.format('ddd HH:mm') : '미지정' }}</div>
+                <div class="col-sm-2 time">~</div>
+                <div class="col-sm-5 time">{{ time.endTime ? time.endTime.format('ddd HH:mm') : '미지정' }}</div>
+              </div>
+            </td>
+            <td>{{ l.buildingName || '미지정'}}</td>
+            <td>{{ l.grade || '-' }}</td>
+            <td>
+              <button class="btn btn-default btn-sm" ng-click="unregister(l.lectureId)" ng-hide="l.year != 2014">
+                <span class="glyphicon glyphicon-minus"></span> 취소
+              </button>
+              <p ng-show="l.year != 2014">-</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </tab>
+    </tabset>
+  </div>
+</div>

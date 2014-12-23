@@ -1,11 +1,11 @@
 <div class="container">
-  <h1 class="page-header">수강 편람 <small>강의를 찾는 기능</small></h1>
+  <h1 class="page-header">수강 편람 및 신청 <small>강의를 찾고, 신청할 수 있습니다</small></h1>
   <div show-refresh="years !== null && majors !== null">
     <div class="form-horizontal" role="form">
       <div class="form-group row">
         <label class="col-sm-1 control-label" for="major">전공</label>
         <div class="col-sm-2">
-          <select class="form-control" id="major" ng-model="major" ng-options="major.name for major in majors" />
+          <select class="form-control" id="major" ng-model="major" ng-options="major.name for major in majors | orderBy:'name'" />
         </div>
         <label class="col-sm-1 control-label" for="year">연도</label>
         <div class="col-sm-2">
@@ -50,10 +50,11 @@
           <th class="col-md-1">학수 번호</th>
           <th class="col-md-2">교과목 이름</th>
           <th class="col-md-1">교강사</th>
+          <th class="col-md-1">학점</th>
           <th class="col-md-2">수업 시간</th>
           <th class="col-md-1">강의실</th>
-          <th class="col-md-1">수강 인원</th>
-          <th class="col-md-1">총 인원</th>
+          <th class="col-md-1">수강 / 총 인원</th>
+          <th class="col-md-1">신청 변경</th>
         </tr>
       </thead>
       <tbody>
@@ -63,6 +64,7 @@
           <td>{{ l.subjectId }}</td>
           <td>{{ l.subjectTitle }}</td>
           <td>{{ l.instructorName }}</td>
+          <td>{{ l.credit }}</td>
           <td>
             <div ng-repeat="time in l.timeTable" class="row">
               <div class="col-sm-5 time">{{ time.startTime ? time.startTime.format('ddd HH:mm') : '미지정' }}</div>
@@ -70,9 +72,16 @@
               <div class="col-sm-5 time">{{ time.endTime ? time.endTime.format('ddd HH:mm') : '미지정' }}</div>
             </div>
           </td>
-          <td>TBD</td>
-          <td>0</td>
-          <td>{{ l.limit }}</td>
+          <td>{{ l.buildingName || '미지정'}}</td>
+          <td>{{ l.registrations }} / {{ l.limit }}</td>
+          <td>
+            <button class="btn btn-primary btn-sm" ng-click="register(l.lectureId)" ng-if="!l.registered">
+              <span class="glyphicon glyphicon-plus"></span> 신청
+            </button>
+            <button class="btn btn-default btn-sm" ng-click="unregister(l.lectureId)" ng-if="l.registered">
+              <span class="glyphicon glyphicon-minus"></span> 취소
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
