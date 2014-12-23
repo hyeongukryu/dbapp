@@ -11,11 +11,13 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 -- Dumping database structure for dbapp
+DROP DATABASE IF EXISTS `dbapp`;
 CREATE DATABASE IF NOT EXISTS `dbapp` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `dbapp`;
 
 
 -- Dumping structure for table dbapp.building
+DROP TABLE IF EXISTS `building`;
 CREATE TABLE IF NOT EXISTS `building` (
   `buildingId` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -44,6 +46,7 @@ INSERT INTO `building` (`buildingId`, `name`, `admin`, `count`) VALUES
 
 
 -- Dumping structure for table dbapp.instructor
+DROP TABLE IF EXISTS `instructor`;
 CREATE TABLE IF NOT EXISTS `instructor` (
   `instructorId` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -149,6 +152,7 @@ INSERT INTO `instructor` (`instructorId`, `name`, `majorId`) VALUES
 
 
 -- Dumping structure for table dbapp.lecture
+DROP TABLE IF EXISTS `lecture`;
 CREATE TABLE IF NOT EXISTS `lecture` (
   `lectureId` int(11) NOT NULL,
   `number` int(11) NOT NULL,
@@ -533,6 +537,7 @@ INSERT INTO `lecture` (`lectureId`, `number`, `subjectId`, `majorId`, `schoolYea
 
 
 -- Dumping structure for table dbapp.lecture_time
+DROP TABLE IF EXISTS `lecture_time`;
 CREATE TABLE IF NOT EXISTS `lecture_time` (
   `lectureId` int(11) NOT NULL,
   `period` int(11) NOT NULL,
@@ -710,6 +715,7 @@ INSERT INTO `lecture_time` (`lectureId`, `period`, `startTime`, `endTime`) VALUE
 
 
 -- Dumping structure for table dbapp.major
+DROP TABLE IF EXISTS `major`;
 CREATE TABLE IF NOT EXISTS `major` (
   `majorId` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -812,6 +818,7 @@ INSERT INTO `major` (`majorId`, `name`) VALUES
 
 
 -- Dumping structure for table dbapp.registration
+DROP TABLE IF EXISTS `registration`;
 CREATE TABLE IF NOT EXISTS `registration` (
   `studentId` varchar(255) NOT NULL,
   `lectureId` int(11) NOT NULL,
@@ -1126,6 +1133,7 @@ INSERT INTO `registration` (`studentId`, `lectureId`, `grade`) VALUES
 
 
 -- Dumping structure for table dbapp.room
+DROP TABLE IF EXISTS `room`;
 CREATE TABLE IF NOT EXISTS `room` (
   `roomId` int(11) NOT NULL,
   `buildingId` int(11) NOT NULL,
@@ -1341,6 +1349,7 @@ INSERT INTO `room` (`roomId`, `buildingId`, `limit`) VALUES
 
 
 -- Dumping structure for table dbapp.student
+DROP TABLE IF EXISTS `student`;
 CREATE TABLE IF NOT EXISTS `student` (
   `studentId` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -1383,6 +1392,7 @@ INSERT INTO `student` (`studentId`, `password`, `name`, `gender`, `majorId`, `in
 
 
 -- Dumping structure for table dbapp.subject
+DROP TABLE IF EXISTS `subject`;
 CREATE TABLE IF NOT EXISTS `subject` (
   `subjectId` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
